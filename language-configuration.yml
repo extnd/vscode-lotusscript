@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://www.schemastore.org/language-configuration.json
+
+comments:
+  lineComment: "'"
+  blockComment: ["%REM", "%END REM"]
+
+brackets:
+  - ["(", ")"]
+  - ["[", "]"]
+
+autoClosingPairs:
+  - ["(", ")"]
+  - ["[", "]"]
+  - ['"', '"']
+  - ["|", "|"]
+  - ["{", "}"]
+
+surroundingPairs:
+  - ["(", ")"]
+  - ["[", "]"]
+  - ['"', '"']
+  - ["|", "|"]
+
+wordPattern: "(-?\\d*\\.\\d\\w*)|([^\\s`~!@#$%^&*()\\-=+\\[\\]{}\\\\|;:'\",.<>/?]+)"
+
+onEnterRules:
+  - beforeText: "^\\s*%REM\\b.*$"
+    action:
+      indent: "indent"
+
+indentationRules:
+  increaseIndentPattern: "^(?i)\\s*(Sub|Function|Property\\s+(Get|Set|Let)|If\\b.*\\bThen\\s*$|Else\\b|ElseIf\\b|For\\b|ForAll\\b|Do\\b|While\\b|Select\\s+Case\\b|Case\\b|Class\\b|Type\\b|With\\b|%REM\\b)"
+  decreaseIndentPattern: "^(?i)\\s*(End\\s+(Sub|Function|Property|If|Select|With|Class|Type)|Else\\b|ElseIf\\b|Loop\\b|Next\\b|Wend\\b|End\\s+ForAll\\b|Case\\b|%END\\s*REM\\b)"

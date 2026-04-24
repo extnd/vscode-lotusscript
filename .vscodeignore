@@ -1,0 +1,12 @@
+# ignore everything
+*
+*/
+
+# whitelist needed files
+!package.json
+
+!dist/*.json
+
+!README.md
+!LICENSE
+!CHANGELOG.md

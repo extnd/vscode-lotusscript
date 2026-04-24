@@ -1,0 +1,126 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Yash-Singh1/vscode-snippets-json-schema/main/schema.json
+
+If:
+  prefix: If
+  body:
+    - If ${1:condition} Then
+    - "\t${2}"
+    - End If
+
+IfElse:
+  prefix: IfElse
+  body:
+    - If ${1:condition} Then
+    - "\t${2}"
+    - Else
+    - "\t${3}"
+    - End If
+
+ElseIf:
+  prefix: ElseIf
+  body:
+    - ElseIf ${1:condition} Then
+    - "\t${2}"
+
+Sub:
+  prefix: Sub
+  body:
+    - Sub ${1:Name}(${2})
+    - "\t${3}"
+    - End Sub
+
+Function:
+  prefix: Function
+  body:
+    - Function ${1:Name}(${2}) As ${3:Variant}
+    - "\t${4}"
+    - End Function
+
+Class:
+  prefix: Class
+  body:
+    - Class ${1:ClassName}
+    - ""
+    - "\tPublic Sub New()"
+    - "\t\t${2}"
+    - "\tEnd Sub"
+    - ""
+    - End Class
+
+ForAll:
+  prefix: ForAll
+  body:
+    - ForAll ${1:item} In ${2:collection}
+    - "\t${3}"
+    - End ForAll
+
+ForNext:
+  prefix: For
+  body:
+    - For ${1:i} = ${2:1} To ${3:10}
+    - "\t${4}"
+    - Next ${1:i}
+
+DoWhile:
+  prefix: DoWhile
+  body:
+    - Do While ${1:condition}
+    - "\t${2}"
+    - Loop
+
+SelectCase:
+  prefix: SelectCase
+  body:
+    - Select Case ${1:expression}
+    - "\tCase ${2:value}"
+    - "\t\t${3}"
+    - "\tCase Else"
+    - "\t\t${4}"
+    - End Select
+
+OnError:
+  prefix: OnError
+  body:
+    - On Error GoTo ${1:ErrorHandler}
+    - "\t${2}"
+    - "\tExit Sub"
+    - "${1:ErrorHandler}:"
+    - "\t${3:Print Error$, Err, Erl}"
+    - "\tExit Sub"
+
+NotesSession:
+  prefix: session
+  body:
+    - Dim session As New NotesSession
+    - Dim db As NotesDatabase
+    - Set db = session.CurrentDatabase
+
+AgentInit:
+  prefix: agent
+  body:
+    - Sub Initialize
+    - "\tOn Error GoTo ErrorHandler"
+    - ""
+    - "\tDim session As New NotesSession"
+    - "\tDim db As NotesDatabase"
+    - "\tSet db = session.CurrentDatabase"
+    - ""
+    - "\t${1}"
+    - ""
+    - "\tExit Sub"
+    - "ErrorHandler:"
+    - "\tPrint Error$ + | (| + CStr(Err) + | @ | + CStr(Erl) + |)|"
+    - "\tExit Sub"
+    - End Sub
+
+Use:
+  prefix: Use
+  body:
+    - Use "${1:library}"
+
+RemBlock:
+  prefix: rem
+  body:
+    - "%REM"
+    - "\t${1:description}"
+    - "%END REM"

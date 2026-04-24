@@ -1,0 +1,10 @@
+' SYNTAX TEST "source.lotusscript" "LotusScript smoke test"
+
+  ' A line comment
+' ^^^^^^^^^^^^^^^^ comment.line.quote.lotusscript
+
+Dim session As New NotesSession
+'^^ storage.modifier.lotusscript
+'           ^^ keyword.operator.as.lotusscript
+'              ^^^ keyword.operator.new.lotusscript
+'                  ^^^^^^^^^^^^ support.class.notes.lotusscript

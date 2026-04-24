@@ -1,0 +1,329 @@
+# SPDX-License-Identifier: MPL-2.0
+# LotusScript TextMate grammar for HCL Domino / Lotus Notes.
+#
+# Scope naming follows TextMate conventions so themes pick up colors
+# automatically. LotusScript-specific scopes end in .lotusscript.
+
+# yaml-language-server: $schema=https://www.schemastore.org/tmlanguage.json
+
+name: LotusScript
+scopeName: source.lotusscript
+fileTypes:
+  - lss
+  - lsa
+  - lso
+
+patterns:
+  - include: '#rem_block'
+  - include: '#preprocessor'
+  - include: '#line_comment'
+  - include: '#strings'
+  - include: '#directives'
+  - include: '#class_definition'
+  - include: '#type_definition'
+  - include: '#routine_definition'
+  - include: '#declare_statement'
+  - include: '#forall_block'
+  - include: '#notes_classes'
+  - include: '#as_type'
+  - include: '#keywords'
+  - include: '#operators'
+  - include: '#constants'
+  - include: '#builtin_types'
+  - include: '#builtin_functions'
+  - include: '#numbers'
+  - include: '#date_literal'
+  - include: '#line_continuation'
+
+repository:
+
+  rem_block:
+    name: comment.block.rem.lotusscript
+    begin: (?i)%REM\b
+    end: (?i)%\s*END\s*REM\b
+    beginCaptures:
+      '0':
+        name: punctuation.definition.comment.begin.lotusscript
+    endCaptures:
+      '0':
+        name: punctuation.definition.comment.end.lotusscript
+
+  preprocessor:
+    patterns:
+      - name: meta.preprocessor.lotusscript
+        match: (?i)^\s*(%(?:Include|If|Else|ElseIf|End\s+If))\b
+        captures:
+          '1':
+            name: keyword.control.preprocessor.lotusscript
+
+  line_comment:
+    patterns:
+      - name: comment.line.quote.lotusscript
+        match: '''[^\n\r]*'
+      - name: comment.line.rem.lotusscript
+        match: (?i)\bRem\b[^\n\r]*
+
+  strings:
+    patterns:
+      - name: string.quoted.double.lotusscript
+        begin: '"'
+        end: '"'
+        beginCaptures:
+          '0':
+            name: punctuation.definition.string.begin.lotusscript
+        endCaptures:
+          '0':
+            name: punctuation.definition.string.end.lotusscript
+        patterns:
+          - name: constant.character.escape.lotusscript
+            match: '""'
+      - name: string.quoted.other.pipe.lotusscript
+        begin: \|
+        end: \|
+        beginCaptures:
+          '0':
+            name: punctuation.definition.string.begin.lotusscript
+        endCaptures:
+          '0':
+            name: punctuation.definition.string.end.lotusscript
+      - name: string.quoted.other.brace.lotusscript
+        begin: \{
+        end: \}
+        beginCaptures:
+          '0':
+            name: punctuation.definition.string.begin.lotusscript
+        endCaptures:
+          '0':
+            name: punctuation.definition.string.end.lotusscript
+
+  directives:
+    patterns:
+      - name: meta.use.lotusscript
+        match: (?i)^\s*(Use|UseLSX)\s+(".*?")
+        captures:
+          '1':
+            name: keyword.control.import.lotusscript
+          '2':
+            name: string.quoted.double.lotusscript
+      - name: keyword.other.option.lotusscript
+        match: (?i)^\s*Option\s+(Public|Private|Explicit|Declare|Base\s+\d+|Compare\s+(Binary|Text|NoCase))\b
+
+  class_definition:
+    patterns:
+      - name: meta.class.lotusscript
+        match: (?i)\b(Class)\s+([A-Za-z_][A-Za-z0-9_]*)(?:\s+As\s+([A-Za-z_][A-Za-z0-9_]*))?
+        captures:
+          '1':
+            name: storage.type.class.lotusscript
+          '2':
+            name: entity.name.class.lotusscript
+          '3':
+            name: entity.other.inherited-class.lotusscript
+      - name: storage.type.class.end.lotusscript
+        match: (?i)\bEnd\s+Class\b
+
+  type_definition:
+    patterns:
+      - name: meta.type.lotusscript
+        match: (?i)\b(Type)\s+([A-Za-z_][A-Za-z0-9_]*)
+        captures:
+          '1':
+            name: storage.type.struct.lotusscript
+          '2':
+            name: entity.name.type.lotusscript
+      - name: storage.type.struct.end.lotusscript
+        match: (?i)\bEnd\s+Type\b
+
+  routine_definition:
+    patterns:
+      - match: (?i)\b(?:(Public|Private|Static|Friend)\s+)?(Sub|Function|Property\s+(?:Get|Set|Let))\s+([A-Za-z_][A-Za-z0-9_]*)
+        captures:
+          '1':
+            name: storage.modifier.lotusscript
+          '2':
+            name: storage.type.function.lotusscript
+          '3':
+            name: entity.name.function.lotusscript
+      - name: storage.type.function.end.lotusscript
+        match: (?i)\bEnd\s+(Sub|Function|Property)\b
+      - name: storage.type.function.lotusscript
+        match: (?i)\b(Sub|Function|Property)\b
+
+  declare_statement:
+    patterns:
+      - name: meta.declare.lotusscript
+        match: (?i)\b(Declare)\s+(?:(Public|Private|Static)\s+)?(Sub|Function)\s+([A-Za-z_][A-Za-z0-9_]*)
+        captures:
+          '1':
+            name: storage.type.declare.lotusscript
+          '2':
+            name: storage.modifier.lotusscript
+          '3':
+            name: storage.type.function.lotusscript
+          '4':
+            name: entity.name.function.lotusscript
+      - name: keyword.other.declare.lotusscript
+        match: (?i)\b(Lib|Alias)\b
+
+  forall_block:
+    patterns:
+      - name: keyword.control.forall.lotusscript
+        match: (?i)\b(ForAll|End\s+ForAll)\b
+
+  as_type:
+    patterns:
+      - name: keyword.operator.as.lotusscript
+        match: (?i)\bAs\b
+
+  keywords:
+    patterns:
+      - name: keyword.control.conditional.lotusscript
+        match: (?i)\b(If|Then|Else|ElseIf|End\s+If|Select\s+Case|Case\s+Else|Case|End\s+Select)\b
+      - name: keyword.control.loop.lotusscript
+        match: (?i)\b(Do(?:\s+While|\s+Until)?|Loop(?:\s+While|\s+Until)?|While|Wend|For(?:\s+Each)?|To|Step|Next|Exit\s+(?:Do|For|Sub|Function|Property)|Continue\s+(?:Do|For|Sub|Function|Property))\b
+      - name: keyword.control.flow.lotusscript
+        match: (?i)\b(GoTo|GoSub|Return|Resume(?:\s+Next)?|On\s+Error|On\s+Event|On\s+(?:\w+\s+)?(?:GoTo|GoSub)|Stop|End|Yield)\b
+      - name: keyword.control.with.lotusscript
+        match: (?i)\b(With|End\s+With)\b
+      - name: storage.modifier.lotusscript
+        match: (?i)\b(Dim|ReDim(?:\s+Preserve)?|Const|Static|Public|Private|Global|Friend|Shared)\b
+      - name: storage.modifier.lotusscript
+        match: (?i)\b(ByRef|ByVal|Optional|ParamArray|WithEvents|Event|RaiseEvent|Implements)\b
+      - name: keyword.other.deftype.lotusscript
+        match: (?i)\b(DefBool|DefByte|DefInt|DefLng|DefCur|DefSng|DefDbl|DefDate|DefStr|DefVar)\b
+      - name: keyword.other.lotusscript
+        match: (?i)\b(Let|Set|Call|Print|Error|Sleep|Randomize|Beep|Kill|MkDir|RmDir|ChDir|ChDrive|FileCopy|Name|Lock|Unlock|Open|Close|Input|Output|Append|Random|Binary|Read|Write|Get|Put|Seek|LSet|RSet|Delete|Erase|Reset|SendKeys|ActivateApp|Run|Spc|Tab|Me)\b
+
+  operators:
+    patterns:
+      - name: keyword.operator.logical.lotusscript
+        match: (?i)\b(And|Or|Not|Xor|Eqv|Imp|AndAlso|OrElse)\b
+      - name: keyword.operator.arithmetic.lotusscript
+        match: (?i)\b(Mod)\b
+      - name: keyword.operator.comparison.lotusscript
+        match: (?i)\b(Is|IsNot|Like|In|TypeOf|AddressOf)\b
+      - name: keyword.operator.new.lotusscript
+        match: (?i)\b(New|Nothing)\b
+      - name: keyword.operator.symbol.lotusscript
+        match: '(\+|-|\*|/|\\|\^|&|=|<>|<=|>=|<|>)'
+
+  constants:
+    patterns:
+      - name: constant.language.boolean.lotusscript
+        match: (?i)\b(True|False)\b
+      - name: constant.language.lotusscript
+        match: (?i)\b(Nothing|Null|Empty|Pi)\b
+
+  notes_classes:
+    name: support.class.notes.lotusscript
+    match: >-
+      (?x)\b Notes
+      (?: ACL | ACLEntry | AdministrationProcess | Agent | AgentContext
+        | Calendar | CalendarEntry | CalendarNotice
+        | ColorObject | Color
+        | Database | DateRange | DateTime | DbDirectory
+        | Directory | DirectoryNavigator
+        | Document | DocumentCollection
+        | DominoQuery | DXLExporter | DXLImporter
+        | EmbeddedObject | Form
+        | HTTPRequest | IDVault | International | Item
+        | JSONArray | JSONElement | JSONNavigator | JSONObject
+        | Log | MIMEEntity | MIMEHeader | Name
+        | Newsletter | NoteCollection
+        | Outline | OutlineEntry
+        | Property | PropertyBroker
+        | QueryResultsProcessor
+        | Registration | Replication | ReplicationEntry
+        | RichTextDocLink | RichTextItem | RichTextNavigator
+        | RichTextParagraphStyle | RichTextRange | RichTextSection
+        | RichTextStyle | RichTextTab | RichTextTable
+        | SAXAttributeList | SAXException | SAXParser
+        | Session | Stream | Timer
+        | UIDatabase | UIDocument | UIScheduler | UIView | UIWorkspace
+        | UserID
+        | View | ViewColumn | ViewEntry | ViewEntryCollection | ViewNavigator
+        | XMLProcessor | XSLTransformer | XMLReader
+        | DOMParser | DOMDocumentNode | DOMElementNode | DOMNode | DOMNodeList
+        | DOMAttributeNode | DOMCharacterDataNode | DOMCDATASectionNode
+        | DOMCommentNode | DOMDocumentFragmentNode | DOMDocumentTypeNode
+        | DOMEntityNode | DOMEntityReferenceNode | DOMNotationNode
+        | DOMProcessingInstructionNode | DOMTextNode
+        | DOMXPathResult | DOMXPathException | DOMParseException
+      ) \b
+
+  builtin_types:
+    patterns:
+      - name: support.type.builtin.lotusscript
+        match: (?i)\b(Any|Boolean|Byte|Currency|Double|Integer|Long|Object|Single|String|Variant)\b
+      - name: support.type.builtin.lotusscript
+        match: (?i)\bList\b
+
+  builtin_functions:
+    patterns:
+      - name: support.function.builtin.lotusscript
+        match: >-
+          (?x)\b
+          (?: Evaluate | Execute | GetThreadInfo | Shell | Shellid
+            | CreateObject | GetObject
+            | Environ\$? | Command\$?
+            | InputBox\$? | MsgBox | MessageBox
+            | Format\$? | Str\$? | Val
+            | CDat | CStr | CInt | CLng | CDbl | CSng | CCur | CBool | CByte | CVar
+            | Abs | Int | Fix | Sgn | Sqr | Exp | Log | Fraction | Round
+            | Atn | ATn2 | ACos | ASin | Cos | Sin | Tan
+            | Len | LenB | LenBP | LenC
+            | Left\$? | LeftB\$? | LeftBP\$? | LeftC\$?
+            | Right\$? | RightB\$? | RightBP\$? | RightC\$?
+            | Mid\$? | MidB\$? | MidBP\$? | MidC\$?
+            | Trim\$? | LTrim\$? | RTrim\$? | FullTrim\$?
+            | UCase\$? | LCase\$?
+            | InStr | InStrB | InStrBP | InStrC | InStrRev
+            | StrLeft\$? | StrRight\$? | StrLeftBack\$? | StrRightBack\$?
+            | StrToken\$? | StrConv | StrCompare
+            | Replace
+            | Space\$? | String\$?
+            | Chr\$? | ChrB\$? | UChr\$? | UString\$? | Uni
+            | Asc | AscB | AscW
+            | Join | Split | Implode | ListTag | ListElement
+            | ArrayAppend | ArrayReplace | ArrayUnique | ArrayGetIndex
+            | IsArray | IsDate | IsElement | IsEmpty | IsNull | IsNumeric
+            | IsObject | IsList | IsScalar | IsUnknown | IsDefined
+            | TypeName | VarType | DataType
+            | Now | Today | Timer | Date\$? | Time\$?
+            | Year | Month | Day | Hour | Minute | Second | Weekday
+            | DateValue | TimeValue | DateSerial | TimeSerial | DateNumber | TimeNumber
+            | DateDiff | DateAdd | DatePart
+            | Hex\$? | Oct\$? | Bin\$?
+            | RGB | QBColor
+            | Rnd | Randomize
+            | Erl | Err | Error\$? | CErr
+            | FreeFile | EOF | LOF | Loc | Seek
+            | FileAttr | FileCopy | FileDateTime | FileLen
+            | GetFileAttr | SetFileAttr | Dir\$? | CurDir\$? | CurDrive\$?
+            | Input\$? | InputB\$? | InputBP\$? | LineInput\$?
+            | IMESetMode | IMEStatus
+            | CodeLock | CodeLockCheck | CodeUnlock | CreateLock | DestroyLock
+            | LBound | UBound
+          ) \b
+
+  numbers:
+    patterns:
+      - name: constant.numeric.hexadecimal.lotusscript
+        match: (?i)-?&H[0-9A-F]+[&%!#@]?
+      - name: constant.numeric.octal.lotusscript
+        match: (?i)-?&O[0-7]+[&%!#@]?
+      - name: constant.numeric.binary.lotusscript
+        match: (?i)-?&B[01]+[&%!#@]?
+      - name: constant.numeric.decimal.lotusscript
+        match: (?<!\w)-?\d+(\.\d+)?([eE][+-]?\d+)?[&%!#@]?
+
+  date_literal:
+    patterns:
+      - name: constant.numeric.date.lotusscript
+        match: \#[^#\n\r]+\#
+
+  line_continuation:
+    patterns:
+      - name: constant.other.line-continuation.lotusscript
+        match: _(?=\s*$)
+        comment: Statement continuation - underscore at end of line joins next line

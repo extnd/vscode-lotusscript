@@ -1,0 +1,13 @@
+' SYNTAX TEST "source.lotusscript" "String variants"
+
+Dim s1 As String
+s1 = "double quoted"
+'    ^^^^^^^^^^^^^^^ string.quoted.double.lotusscript
+
+Dim s2 As String
+s2 = |pipe delimited|
+'    ^^^^^^^^^^^^^^^^ string.quoted.other.pipe.lotusscript
+
+Dim s3 As String
+s3 = {brace delimited}
+'    ^^^^^^^^^^^^^^^^^ string.quoted.other.brace.lotusscript
