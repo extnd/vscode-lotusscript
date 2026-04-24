@@ -77,3 +77,42 @@ jobs:
           generate_release_notes: true
           fail_on_unmatched_files: true
           files: ${{ env.VSIX_FILE }}
+
+
+  publish-vsce:
+    needs:
+      - create-release
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    environment: publish
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ env.VSIX_FILE }}
+
+      - name: Publish to VS Code Marketplace
+        uses: HaaLeo/publish-vscode-extension@v2
+        with:
+          pat: ${{ secrets.VSCE_PAT }}
+          registryUrl: https://marketplace.visualstudio.com
+          extensionFile: ${{ env.VSIX_FILE }}
+
+
+  publish-ovsx:
+    needs:
+      - create-release
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    environment: publish
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ env.VSIX_FILE }}
+
+      - name: Publish to Open VSX
+        uses: HaaLeo/publish-vscode-extension@v2
+        with:
+          pat: ${{ secrets.OVSX_PAT }}
+          extensionFile: ${{ env.VSIX_FILE }}
