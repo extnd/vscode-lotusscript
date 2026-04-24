@@ -1,0 +1,89 @@
+{
+  "name": "vscode-lotusscript",
+  "displayName": "LotusScript",
+  "description": "LotusScript syntax highlighting and snippets for HCL Domino / Lotus Notes development.",
+  "version": "0.1.0",
+  "license": "MPL-2.0",
+  "publisher": "rich-waters",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rich-waters/vscode-lotusscript"
+  },
+  "bugs": {
+    "url": "https://github.com/rich-waters/vscode-lotusscript/issues"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
+  "keywords": [
+    "LotusScript",
+    "HCL Domino",
+    "Lotus Notes",
+    "Domino",
+    "DXL",
+    "Notes"
+  ],
+  "type": "module",
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "lotusscript",
+        "aliases": [
+          "LotusScript",
+          "lotusscript",
+          "LS"
+        ],
+        "extensions": [
+          ".lss",
+          ".lsa",
+          ".lso"
+        ],
+        "configuration": "./dist/language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "lotusscript",
+        "scopeName": "source.lotusscript",
+        "path": "./dist/lotusscript.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "lotusscript",
+        "path": "./dist/snippets.json"
+      }
+    ]
+  },
+  "scripts": {
+    "convert": "bun run ./scripts/convert_yaml.ts",
+    "validate": "bun run ./scripts/validate_yaml.ts",
+    "test": "bun run convert && bun run test:grammar",
+    "test:grammar": "bunx textmate-grammar-test -g ./dist/lotusscript.json \"syntaxes/tests/*.lss\"",
+    "package": "bunx vsce package",
+    "package:dev": "bunx vsce package -o ./vscode-lotusscript-dev.vsix",
+    "install:dev": "bun run package:dev && code --install-extension ./vscode-lotusscript-dev.vsix --force",
+    "vscode:prepublish": "bun run convert"
+  },
+  "engines": {
+    "node": ">=22",
+    "vscode": "^1.101.0"
+  },
+  "packageManager": "bun@1.3.11",
+  "devDependencies": {
+    "@types/bun": "~1.3.11",
+    "@types/node": "~22.19.15",
+    "@vscode/vsce": "~3.7.1",
+    "ajv": "~8.18.0",
+    "ajv-formats": "~3.0.1",
+    "textmate-grammar-test": "~0.6.0",
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.3.2"
+  }
+}

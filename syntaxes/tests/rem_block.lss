@@ -1,0 +1,12 @@
+' SYNTAX TEST "source.lotusscript" "REM block"
+
+%REM
+'^^^ comment.block.rem.lotusscript
+Dim x As Integer
+'^^^ comment.block.rem.lotusscript
+%END REM
+'^^^^^^^ comment.block.rem.lotusscript
+
+Dim y As Integer
+'^^ storage.modifier.lotusscript
+'        ^^^^^^^ support.type.builtin.lotusscript
