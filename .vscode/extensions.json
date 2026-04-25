@@ -1,7 +1,3 @@
 {
-  "recommendations": [
-    "EditorConfig.EditorConfig",
-    "redhat.vscode-yaml",
-    "oven.bun-vscode"
-  ]
+  "recommendations": []
 }

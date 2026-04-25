@@ -1,7 +1,16 @@
 # Changelog
 
+## 0.1.1
+_2026-04-25_
+
+- Recognize seven additional Notes classes:
+  - `NotesGPS`, `NotesGPSCoordinates`, `NotesGPSPosition`
+  - `NotesLLMRequest`, `NotesLLMResponse` (HCL Domino 14 AI integration)
+  - `NotesDOMNamedNodeMap`, `NotesDOMXMLDeclNode`
+- Wire up auto-publish to VS Code Marketplace and Open VSX on tag push, gated by a manual approval environment
+
 ## 0.1.0
-_Unreleased_
+_2026-04-25_
 
 - Initial grammar covering comments, strings, keywords, operators, types, numbers, line continuation
 - Block comment support for `%REM` / `%END REM` / `%ENDREM`
