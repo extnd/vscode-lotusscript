@@ -226,8 +226,10 @@ repository:
         | Document | DocumentCollection
         | DominoQuery | DXLExporter | DXLImporter
         | EmbeddedObject | Form
+        | GPS | GPSCoordinates | GPSPosition
         | HTTPRequest | IDVault | International | Item
         | JSONArray | JSONElement | JSONNavigator | JSONObject
+        | LLMRequest | LLMResponse
         | Log | MIMEEntity | MIMEHeader | Name
         | Newsletter | NoteCollection
         | Outline | OutlineEntry
@@ -244,6 +246,7 @@ repository:
         | View | ViewColumn | ViewEntry | ViewEntryCollection | ViewNavigator
         | XMLProcessor | XSLTransformer | XMLReader
         | DOMParser | DOMDocumentNode | DOMElementNode | DOMNode | DOMNodeList
+        | DOMNamedNodeMap | DOMXMLDeclNode
         | DOMAttributeNode | DOMCharacterDataNode | DOMCDATASectionNode
         | DOMCommentNode | DOMDocumentFragmentNode | DOMDocumentTypeNode
         | DOMEntityNode | DOMEntityReferenceNode | DOMNotationNode
